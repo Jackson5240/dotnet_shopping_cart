@@ -1,0 +1,35 @@
+@page "/products"
+@inject ApiClient Api
+
+<h3>Products</h3>
+
+@if (products is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @foreach (var p in products)
+    {
+        <div class="card p-2 m-2">
+            <h4>@p.Name</h4>
+            <p>@p.Description</p>
+            <p>@p.Price.ToString("C")</p>
+            <button @onclick="() => Add(p.Id)">Add to cart</button>
+        </div>
+    }
+}
+
+@code {
+    private List<Product>? products;
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await Api.GetProducts();
+    }
+
+    private async Task Add(int id)
+    {
+        await Api.AddToCart(id, 1);
+    }
+}

@@ -1,0 +1,30 @@
+@page "/cart"
+@inject ApiClient Api
+
+<h3>Your Cart</h3>
+
+@if (items is null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (items.Count == 0)
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <ul>
+        @foreach (var i in items)
+        {
+            <li>@i.Product?.Name x @i.Quantity (@i.Product?.Price.ToString("C"))</li>
+        }
+    </ul>
+}
+
+@code {
+    private List<CartItem>? items;
+    protected override async Task OnInitializedAsync()
+    {
+        items = await Api.GetCart();
+    }
+}

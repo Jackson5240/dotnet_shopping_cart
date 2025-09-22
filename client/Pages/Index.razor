@@ -1,0 +1,8 @@
+@page "/"
+@code {
+    protected override void OnInitialized()
+    {
+        NavigationManager.NavigateTo("/products", true);
+    }
+    [Inject] public NavigationManager NavigationManager { get; set; } = default!;
+}

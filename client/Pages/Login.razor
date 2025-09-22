@@ -1,0 +1,26 @@
+@page "/login"
+@inject AuthService Auth
+@inject NavigationManager Nav
+
+<h3>Login</h3>
+
+<div>
+    <label>Email: <input @bind="email" /></label><br />
+    <label>Password: <input type="password" @bind="password" /></label><br />
+    <button @onclick="Submit">Login</button>
+</div>
+
+<p>@message</p>
+
+@code {
+    private string email = string.Empty;
+    private string password = string.Empty;
+    private string message = string.Empty;
+
+    private async Task Submit()
+    {
+        var ok = await Auth.Login(email, password);
+        message = ok ? "Logged in!" : "Invalid login";
+        if (ok) Nav.NavigateTo("/products");
+    }
+}
