@@ -16,7 +16,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 // JWT
-var jwtKey = builder.Configuration["Jwt:Key"] ?? "super_secret_dev_key_change_me";
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "super_secret_dev_key_change_me_at_least_32";
 var key = Encoding.UTF8.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -31,14 +31,31 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+//Jackson add
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy  =>
+        {
+            policy.WithOrigins("http://localhost:5000")  // Blazor client origin
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+//Jackson end
+
 builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddScoped<ProductService>();
-//builder.Services.AddScoped<CartService>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<CartService>();
+
+
 
 var app = builder.Build();
 
@@ -48,7 +65,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//Jackson
+//app.UseHttpsRedirection();
+app.UseCors(MyAllowSpecificOrigins);
+//Jackson
 
 // .NET 9 static assets
 app.MapStaticAssets();

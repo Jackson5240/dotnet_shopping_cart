@@ -6,6 +6,9 @@ services:
       - "5001:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      ##Jackson added
+      - ASPNETCORE_URLS=http://+:80
+      ##Jackson added
   client:
     build: ./client
     ports:

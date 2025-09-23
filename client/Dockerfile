@@ -7,4 +7,7 @@ RUN dotnet publish ./client.csproj -c Release -o /app/publish
 
 FROM nginx:alpine AS final
 COPY --from=build /app/publish/wwwroot /usr/share/nginx/html
+## Jackson add
+COPY nginx.conf /etc/nginx/nginx.conf
+##Jackson end
 EXPOSE 80

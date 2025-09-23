@@ -17,13 +17,15 @@ public class AuthService
 
     public async Task<bool> Register(string email, string password)
     {
-        var res = await _http.PostAsJsonAsync("api/auth/register", new { email, password });
+        //var res = await _http.PostAsJsonAsync("api/auth/register", new { email, password });
+        var res = await _http.PostAsJsonAsync("auth/register", new { email, password });
         return res.IsSuccessStatusCode;
     }
 
     public async Task<bool> Login(string email, string password)
     {
-        var res = await _http.PostAsJsonAsync("api/auth/login", new { email, password });
+        //var res = await _http.PostAsJsonAsync("api/auth/login", new { email, password });
+        var res = await _http.PostAsJsonAsync("auth/login", new { email, password });
         if (!res.IsSuccessStatusCode) return false;
         var payload = await res.Content.ReadFromJsonAsync<TokenResponse>();
         if (payload is null || string.IsNullOrWhiteSpace(payload.token)) return false;
