@@ -7,13 +7,37 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure EF Core (SQLite for dev)
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=shopping.db"));
+
+// Configure MSSQL
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//    options.UseSqlite("Data Source=shopping.db"));
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=shopping.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+
+//Jackson test
+// Prevent cookie redirects (use 401 instead)
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Events.OnRedirectToLogin = context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        return Task.CompletedTask;
+    };
+    options.Events.OnRedirectToAccessDenied = context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+        return Task.CompletedTask;
+    };
+});
+//Jackson ends
 
 // JWT
 var jwtKey = builder.Configuration["Jwt:Key"] ?? "super_secret_dev_key_change_me_at_least_32";
