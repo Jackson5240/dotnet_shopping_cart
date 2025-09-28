@@ -1,0 +1,5 @@
+body { font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 0; }
+nav a { margin-right: 10px; }
+.card { border: 1px solid #ccc; border-radius: 8px; }
+.p-2 { padding: 0.5rem; } .m-2 { margin: 0.5rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }

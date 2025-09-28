@@ -12,4 +12,17 @@ public class ProductService
         _db.Products.Add(product);
         await _db.SaveChangesAsync();
     }
+
+    public async Task UpdateAsync(Product product)
+{
+    _db.Products.Update(product);
+    await _db.SaveChangesAsync();
+}
+
+public async Task DeleteAsync(Product product)
+{
+    _db.Products.Remove(product);
+    await _db.SaveChangesAsync();
+}
+
 }

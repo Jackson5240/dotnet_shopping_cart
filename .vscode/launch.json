@@ -1,0 +1,69 @@
+/*
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Docker: Attach to .NET Core",
+      "type": "coreclr",
+      "request": "attach",
+      "processId": "1",   // ASP.NET app usually runs as PID 1 inside container
+      "pipeTransport": {
+        "pipeProgram": "docker",
+        "pipeArgs": ["exec", "-i", "full_solution-server-1"],
+        "debuggerPath": "/vsdbg/vsdbg",
+        "pipeCwd": "${workspaceFolder}"
+      }
+    }
+  ]
+}
+*/
+
+
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Docker: Debug Backend",
+      "type": "coreclr",
+      "request": "attach",
+      "processId": "1", // .NET app inside container usually runs as PID 1
+      //"processId": "dot net",
+      "pipeTransport": {
+        //"pipeProgram": "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe",
+        "pipeProgram": "docker",
+        "pipeArgs": ["exec", "-i", "full_solution-server-1"], // replace with your container name
+        "debuggerPath": "/vsdbg/vsdbg",
+        "pipeCwd": "${workspaceFolder}",
+        "quoteArgs": false
+      },
+      "sourceFileMap": {
+        "/app": "${workspaceFolder}/server" // maps container /app folder to your local code
+      },
+//      "env": {
+//        "ConnectionStrings__DefaultConnection": "Server=db;Database=ShoppingCartDb;User Id=sa;Password=Your_password123;Encrypt=False;TrustServerCertificate=True"
+ //     },
+      "justMyCode": true
+    }
+  ]
+}
+
+
+/*
+  {
+  "name": "Docker: Debug Backend",
+  "type": "coreclr",
+  "request": "attach",
+  "processId": "1",
+  "pipeTransport": {
+    "pipeProgram": "docker",
+    "pipeArgs": ["exec", "-i", "full_solution-server-1"],
+    "debuggerPath": "/vsdbg/vsdbg",
+    "pipeCwd": "${workspaceFolder}"
+  },
+  "sourceFileMap": {
+    "/app": "${workspaceFolder}/server"
+  },
+  "justMyCode": true
+}
+
+*/

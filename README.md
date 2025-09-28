@@ -85,3 +85,11 @@ go
 The container didn’t rebuild with the new config (maybe Docker cached it).
 
 Fix: run docker compose build --no-cache server then docker compose up server.
+
+docker compose rm -s -f server  
+
+docker compose build --no-cache server
+
+docker compose up -d --build server
+
+dotnet publish -c Debug

@@ -1,0 +1,1 @@
+C:\Users\jacks\OneDrive\Desktop\c_sharp\full_solution\client\bin\Debug\net9.0\publish\web.config
